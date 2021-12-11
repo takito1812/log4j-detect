@@ -1,7 +1,7 @@
 from sys import argv
 from requests import get
 from urllib3 import disable_warnings
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 
 disable_warnings()
 
