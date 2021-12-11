@@ -14,7 +14,7 @@ Finally, if a host is vulnerable, an identification number will appear in the su
 
 It should be noted that this script only handles DNS detection of the vulnerability and does not test remote command execution.
 
-# Downloading log4j-detect.py
+### Downloading log4j-detect.py
 
 ```sh
 wget https://github.com/takito1812/log4j-detect/raw/main/log4j-detect.py
