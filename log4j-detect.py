@@ -20,17 +20,14 @@ def sendDetectionRequest(url, urlId):
         print(e)
         pass
 
-def runner():
-    threads = []
-    urlId = 0
-    if len(argv) > 1:
-        urlFile = open(argv[1], 'r')
-        urlList = urlFile.readlines()
-        with ThreadPoolExecutor(max_workers=15) as executor:
-            for url in urlList:
-                urlId += 1
-                threads.append(executor.submit(sendDetectionRequest, url, urlId))
-    else:
-        print('[!] Syntax: python3 {} <urlList> <collab>'.format(argv[0]))
-
-runner()
+threads = []
+urlId = 0
+if len(argv) > 1:
+    urlFile = open(argv[1], 'r')
+    urlList = urlFile.readlines()
+    with ThreadPoolExecutor(max_workers=15) as executor:
+        for url in urlList:
+            urlId += 1
+            threads.append(executor.submit(sendDetectionRequest, url, urlId))
+else:
+    print('[!] Syntax: python3 {} <urlFile> <collaboratorPayload>'.format(argv[0]))
