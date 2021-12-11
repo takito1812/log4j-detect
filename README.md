@@ -26,5 +26,4 @@ wget https://github.com/takito1812/log4j-detect/raw/main/log4j-detect.py
 python3 log4j-detect.py <urlFile> <collaboratorPayload>
 ```
 
-Running example:
 ![imagen](https://user-images.githubusercontent.com/56491288/145682480-e38b514b-0768-499b-b5fc-798b764f9a62.png)
