@@ -39,8 +39,9 @@ try:
         urlList = (line.strip() for line in urlFile)
         urlList = list(line for line in urlList if line)
         urlList = list(dict.fromkeys(urlList))
-        if len(urlList) > 1:
-            print('[!] {} URLs loaded'.format(len(urlList)))
+        urlLength = len(urlList)
+        if urlLength > 1:
+            print('[!] {} URLs loaded'.format(urlLength))
 except:
     urlList = [args.u]
 with ThreadPoolExecutor(max_workers=args.threads) as executor:
