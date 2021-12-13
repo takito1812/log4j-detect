@@ -18,7 +18,7 @@ def sendDetectionRequest(url, urlId):
 if len(argv) > 1:
     disable_warnings()
     proxies = {}
-    # proxies = {"http":"http://127.0.0.1:8080", "https":"http://127.0.0.1:8080"} # Uncomment in case you want to pass traffic via Burp Proxy
+    # proxies = {"http":"http://127.0.0.1:8080", "https":"http://127.0.0.1:8080"}
     threads = []
     urlId = 0
     urlFile = open(argv[1], 'r')
