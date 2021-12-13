@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 disable_warnings()
 
 proxies = {}
-proxies = {"http": "http://192.168.0.109:8080", "https": "http://192.168.0.109:8080"}
+#proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"}
 
 def sendDetectionRequest(url, urlId):
     try:
