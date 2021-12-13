@@ -1,7 +1,6 @@
 from sys import argv
 from requests import get
 from urllib3 import disable_warnings
-import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
 def sendDetectionRequest(url, urlId):
@@ -24,11 +23,14 @@ if len(argv) > 1:
     # proxies = {"http":"http://127.0.0.1:8080", "https":"http://127.0.0.1:8080"}
     threads = []
     urlId = 0
-    urlFile = open(argv[1], 'r')
-    urlList = urlFile.readlines()
+    try:
+        urlFile = open(argv[1], 'r')
+        urlList = urlFile.readlines()
+    except:
+        urlList = [argv[1]]
     with ThreadPoolExecutor(max_workers=15) as executor:
         for url in urlList:
             urlId += 1
             threads.append(executor.submit(sendDetectionRequest, url, urlId))
 else:
-    print('[!] Syntax: python3 {} <urlFile> <collaboratorPayload>'.format(argv[0]))
+    print('[!] Syntax: python3 {} <url/urlFile> <collaboratorPayload>'.format(argv[0]))
