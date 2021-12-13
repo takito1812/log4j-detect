@@ -22,9 +22,8 @@ def sendRequest(url, urlId):
         params = {'x':payload1}
         headers = {'User-Agent':payload2, 'Referer':payload3, 'X-Forwarded-For':payload3, 'Authentication':payload3}
         url = url.strip()
-        print('[{}] Testing: {}'.format(urlId, url))
         r = requests.get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
-        print('[!] Status code: {}'.format(r.status_code))
+        print('[{}] {} ({})'.format(urlId, url, r.status_code))
     except Exception as e:
         print(e)
         pass
