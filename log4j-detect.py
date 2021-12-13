@@ -25,6 +25,7 @@ def sendRequest(url, urlId):
         r = requests.get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
         print('[{}] {} ({})'.format(urlId, url, r.status_code))
     except Exception as e:
+        print('[{}] An error has occurred'.format(urlId))
         print(e)
         pass
 
