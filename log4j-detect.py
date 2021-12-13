@@ -24,7 +24,7 @@ def sendRequest(url, urlId):
         url = url.strip()
         print('[{}] Testing: {}'.format(urlId, url))
         r = requests.get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
-        print('[!] Status code: {}').format(r.status_code))
+        print('[!] Status code: {}'.format(r.status_code))
     except Exception as e:
         print(e)
         pass
