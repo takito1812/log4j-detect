@@ -25,7 +25,7 @@ def sendRequest(url, urlId):
         r = requests.get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
         print('[{}] {} ({})'.format(urlId, url, r.status_code))
     except Exception as e:
-        print('[{}] An error has occurred testing {}'.format(urlId, url))
+        print('[{}] Error while testing {}:'.format(urlId, url))
         print(e)
         pass
 
@@ -34,7 +34,6 @@ if args.proxy is None:
     proxies = {}
 else:
     proxies = {"http":args.proxy, "https":args.proxy}
-threads = []
 urlId = 0
 try:
     urlFile = open(args.u, 'r')
@@ -45,4 +44,4 @@ except:
 with ThreadPoolExecutor(max_workers=args.threads) as executor:
     for url in urlList:
         urlId += 1
-        threads.append(executor.submit(sendRequest, url, urlId))
+        executor.submit(sendRequest, url, urlId)
