@@ -26,7 +26,6 @@ def sendRequest(url, urlId):
     except Exception as e:
         print('[{}] Error while testing {}:'.format(urlId, url))
         print(e)
-        print(url, type(url))
         pass
 
 disable_warnings()
