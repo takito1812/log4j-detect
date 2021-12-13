@@ -1,5 +1,4 @@
-import argparse, sys
-from requests import get
+import argparse, sys, requests
 from urllib3 import disable_warnings
 from concurrent.futures import ThreadPoolExecutor
 
@@ -23,8 +22,9 @@ def sendRequest(url, urlId):
         params = {'x':payload1}
         headers = {'User-Agent':payload2, 'Referer':payload3, 'X-Forwarded-For':payload3, 'Authentication':payload3}
         url = url.strip()
-        print('[{}] Testing {}'.format(urlId, url))
-        get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
+        print('[{}] Testing: {}'.format(urlId, url))
+        r = requests.get(url, headers=headers, params=params, verify=False, proxies=proxies, timeout=10)
+        print('[!] Status code: {}').format(r.status_code))
     except Exception as e:
         print(e)
         pass
