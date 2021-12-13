@@ -39,6 +39,7 @@ try:
     urlFile = open(args.u, 'r')
     urlList = urlFile.readlines()
     urlList = list(dict.fromkeys(urlList))
+    urlList = filter(None, urlList)
 except:
     urlList = [args.u]
 with ThreadPoolExecutor(max_workers=args.threads) as executor:
