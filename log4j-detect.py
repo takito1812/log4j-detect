@@ -8,7 +8,6 @@ class customParser(argparse.ArgumentParser):
         sys.stderr.write('error: %s\n' % message)
         self.print_help()
         sys.exit(2)
-
 parser = customParser(prog='log4j-detect', description='Python 3 script to detect the Log4j Java library vulnerability (CVE-2021-44228)')
 parser.add_argument('u', help='Single URL / File with a list of URLs')
 parser.add_argument('s', help='Server from Burp Collaborator, interactsh or similar')
