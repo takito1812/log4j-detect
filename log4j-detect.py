@@ -32,13 +32,14 @@ disable_warnings()
 if args.proxy is None:
     proxies = {}
 else:
-    proxies = {"http":args.proxy, "https":args.proxy}
+    proxies = {'http':args.proxy, 'https':args.proxy}
 urlId = 0
 try:
     with open(args.u) as urlFile:
-        urlList = (line.rstrip() for line in urlFile)
+        urlList = (line.strip() for line in urlFile)
         urlList = list(line for line in urlList if line)
         urlList = list(dict.fromkeys(urlList))
+        print('[!] {} URLs loaded'.format(len(urlList)))
 except:
     urlList = [args.u]
 with ThreadPoolExecutor(max_workers=args.threads) as executor:
